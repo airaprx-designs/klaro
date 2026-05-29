@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Klaro base styles. Tokens defined in tailwind.config.ts.
+ *
+ * Brand refresh · playful minimalist (Step 2 / 2026-05-28):
+ *   - Heading color shifts from deep-blue to warm-dark so the warm cream
+ *     canvas + coral accent + warm dark text read as one warm family.
+ *   - Heading weight bumps from 600 to 700 because Plus Jakarta Sans
+ *     (replacing Manrope) reads quieter at 600 than Manrope did.
+ *   - Link + focus-visible accent shifts from klaro-blue to coral so the
+ *     single warm accent runs end-to-end through the UI.
+ *
+ *   The --font-manrope CSS variable continues to be used here intentionally
+ *   — layout.tsx now binds it to Plus Jakarta Sans, so every consumer of
+ *   font-brand or this variable picks up the new face automatically.
+ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.75;
+  }
+
+  h1 {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    color: theme("colors.warm-dark");
+    font-size: 2.5rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    color: theme("colors.warm-dark");
+    font-size: 2rem;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    color: theme("colors.warm-dark");
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    margin-bottom: 0.75rem;
+  }
+
+  a {
+    color: theme("colors.terracotta-deep");
+  }
+  a:hover {
+    color: theme("colors.warm-dark");
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.terracotta");
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* Semantic CSS variables for the playful-minimalist accent so non-Tailwind
+ * surfaces (illustration backgrounds, gradient stops in inline SVG, etc.)
+ * can reference the same values without duplicating hex literals.
+ *
+ * Step 2.5: accent family swapped from coral (#EE8569) to terracotta
+ * (#D17442). Variable names stay semantic ("--klaro-accent") so any
+ * inline SVG referencing them updates automatically.
+ */
+:root {
+  /* Brand/display font — loaded via <link> in layout.tsx because Elms
+   * Sans isn't in next/font/google's static allowlist on this Next
+   * version. Setting --font-manrope here means every consumer (the
+   * font-brand Tailwind utility, plus base <h1>/<h2>/<h3>) picks up
+   * Elms Sans without touching components. */
+  --font-manrope: "Elms Sans", system-ui, sans-serif;
+
+  --klaro-accent: #F35526;       /* bright red-orange (CTA) */
+  --klaro-accent-deep: #984F22;  /* terracotta-deep — text-grade accent */
+  --klaro-accent-tint: #FDD9C0;  /* terracotta-tint */
+  --klaro-companion: #E6B85B;    /* warm-yellow */
+  --klaro-companion-deep: #A67E22;
+  --klaro-text: #3D2618;         /* warm-dark */
+  --klaro-text-mid: #6B4E3A;     /* warm-mid */
+  --klaro-outline: #E8D9C0;
+  --klaro-outline-warm: #FAC5A0;
+}
+
+/* Phase 11 — subtle page-entrance fade. Per the brand's "calm, intentional"
+ * principle: only opacity + a small lift, slow timing (350ms per design
+ * system "slow"). Applied to <main>, so the sticky header stays put.
+ * Disabled automatically by prefers-reduced-motion below.
+ */
+@keyframes klaroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: klaroFadeInUp 350ms ease-out;
+}
+
+/* Icon gradient stroke — used by TaskCard to render the lucide icon
+ * with a 45° orange→yellow gradient stroke instead of a flat color.
+ * Uses a universal descendant selector so every SVG shape inside the
+ * icon (path, circle, line, polyline, polygon, rect, ellipse, and any
+ * nested <g> wrappers) picks up the gradient regardless of tag.
+ * Reference: <linearGradient id="task-icon-gradient"> in app/layout.tsx.
+ */
+.icon-gradient-stroke,
+.icon-gradient-stroke * {
+  stroke: url(#task-icon-gradient) !important;
+}
+
+/* Respect user's motion preference. WCAG 2.3.3, common a11y pattern. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+ * Spacing preference — Step 7b (2026-05-29)
+ *
+ * The user's Settings "Spacing" preference (Compact / Standard / Roomy)
+ * persists to localStorage and PreferencesApplier sets it as
+ *   <html data-spacing="compact|standard|roomy">
+ *
+ * Step 7b wires the visual application. A single CSS variable
+ * --klaro-density scales between 0.78 (compact) and 1.22 (roomy) and is
+ * applied to top-level page rhythm only — main's vertical padding and the
+ * direct-child gaps on page wrappers. Card internals (gap-3, gap-4 inside
+ * cards) are NOT scaled so cards keep their tight tuned rhythm regardless
+ * of the density setting.
+ *
+ * Compact → tighter sections, more visible per scroll
+ * Roomy   → more breathing room, calmer pace
+ * ─────────────────────────────────────────────────────────────────────── */
+
+:root { --klaro-density: 1; }
+html[data-spacing="compact"] { --klaro-density: 0.78; }
+html[data-spacing="roomy"] { --klaro-density: 1.22; }
+
+/* <main> vertical padding scales with density.
+ * Defaults from layout.tsx are pt-8 / pb-32 (mobile) and md:pt-16 / md:pb-16. */
+html[data-spacing] main {
+  padding-top: calc(2rem * var(--klaro-density));
+  padding-bottom: calc(8rem * var(--klaro-density));
+}
+@media (min-width: 768px) {
+  html[data-spacing] main {
+    padding-top: calc(4rem * var(--klaro-density));
+    padding-bottom: calc(4rem * var(--klaro-density));
+  }
+}
+
+/* Top-level page wrappers' vertical rhythm. Targets the flex/grid wrapper
+ * that's a direct child of <main> (HomePage, SettingsPage use flex-col +
+ * gap-12; ProgressPage + TaskFlow use grid gap-8 md:gap-12). */
+html[data-spacing] main > .flex.flex-col {
+  gap: calc(3rem * var(--klaro-density));
+}
+html[data-spacing] main > .grid {
+  gap: calc(2rem * var(--klaro-density));
+}
+@media (min-width: 768px) {
+  html[data-spacing] main > .grid {
+    gap: calc(3rem * var(--klaro-density));
+  }
+}
+
+/* Right-column card stack inside ProgressPage and a few other places */
+html[data-spacing] main .flex.flex-col.gap-8 {
+  gap: calc(2rem * var(--klaro-density));
+}
