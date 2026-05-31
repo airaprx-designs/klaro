@@ -109,7 +109,7 @@ export function TodaysTaskHero({ task }: Props) {
           <img
             src="/hero_img.png"
             alt=""
-            className="h-full w-full scale-[1.2] object-contain"
+            className="h-full w-full scale-[1.45] object-contain"
           />
         </div>
       </div>
