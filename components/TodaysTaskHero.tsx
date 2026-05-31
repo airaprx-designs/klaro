@@ -17,6 +17,13 @@ import type { TaskConfig } from "@/lib/tasks/config";
  *     companion disc + small dark accent dot). No more icon-in-tinted-box.
  *
  * See the decision shot: outputs/klaro_three_accents.jpg (panel A).
+ *
+ * 2026-05-31:
+ *   - Hero illustration swapped from /hero.svg (flat SVG composition) to
+ *     /hero_img.png (softer 3D-style render). Single shared image across all
+ *     tasks; the per-task illustration system in lib/tasks/illustrations.tsx
+ *     remains in the codebase but is unused.
+ *   - Compare: case_study/klaro_hero_swap_mockup.png.
  */
 
 type Props = {
@@ -94,13 +101,13 @@ export function TodaysTaskHero({ task }: Props) {
           </div>
         </div>
 
-        {/* Right column · static hero illustration from /public/hero.svg. */}
+        {/* Right column · static hero illustration from /public/hero_img.png. */}
         <div
           aria-hidden="true"
           className="relative hidden aspect-square w-full items-center justify-center md:flex"
         >
           <img
-            src="/hero.svg"
+            src="/hero_img.png"
             alt=""
             className="h-full w-full scale-[1.2] object-contain"
           />
