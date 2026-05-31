@@ -27,7 +27,9 @@ export function ExploreAllTasks({ tasks }: Props) {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls="explore-all-tasks-list"
-        className="flex w-full items-center justify-between rounded-md px-6 py-6 text-left text-warm-dark transition-colors hover:bg-[#FDB322]/15"
+        className={`flex w-full items-center justify-between px-6 py-6 text-left text-warm-dark transition-colors hover:bg-[#FDB322]/15 ${
+          open ? "rounded-t-md" : "rounded-md"
+        }`}
       >
         <span className="font-brand text-xl font-semibold">
           Explore all tasks:
