@@ -33,7 +33,7 @@ type Props = {
 export function TodaysTaskHero({ task }: Props) {
   return (
     <section
-      className="-mx-6 overflow-hidden rounded-lg border-[0.75px] border-outline-warm sm:-mx-10"
+      className="overflow-hidden rounded-lg border-[0.75px] border-outline-warm"
       style={{
         background:
           "radial-gradient(circle at 88% 14%, rgba(253,179,140,0.55) 0%, rgba(253,179,140,0) 55%), radial-gradient(circle at 12% 92%, rgba(249,148,123,0.45) 0%, rgba(249,148,123,0) 55%), radial-gradient(ellipse 600px 400px at 60% 70%, rgba(255,194,165,0.30) 0%, rgba(255,194,165,0) 60%), #FFFFFF",
