@@ -19,7 +19,10 @@ import type { AIRequest, AIResponse } from "@/lib/ai/types";
 
 export const runtime = "nodejs";
 
-const MODEL = "claude-3-5-sonnet-latest";
+// Anthropic retired the claude-3-5-sonnet-* aliases. Pin to the current
+// Sonnet 4.6 model. To downgrade for cost (Klaro's responses are short),
+// swap to "claude-haiku-4-5-20251001".
+const MODEL = "claude-sonnet-4-6";
 
 const STRUCTURED_RESPONSE_TOOL: Anthropic.Messages.Tool = {
   name: "klaro_response",
