@@ -27,6 +27,12 @@ export type TaskLevel = 1 | 2;
 export type IntentOption = {
   id: string;
   label: string;
+  /**
+   * Optional concrete example prompts for this intent. When set, IntentStep
+   * renders them as a "For example:" hint block below the textarea after the
+   * user picks this intent. Used to broaden what users imagine they can ask.
+   */
+  examples?: string[];
 };
 
 /**
@@ -265,22 +271,45 @@ export const TASKS: TaskConfig[] = [
     mockResponseId: "write-first-email-default"
   },
   {
-    slug: "explain-screenshot",
+    slug: "understand-image",
     level: 2,
-    title: "Explain a screenshot",
+    title: "Understand an image",
     shortDescription: "Understand what you're seeing",
     description:
-      "Stuck on something on your screen? Share a screenshot and AI will explain what's there in plain language.",
+      "Share an image — a photo, a screenshot, a sign, a label, a receipt — and AI will explain what's there in plain language.",
     estimatedMinutes: 5,
-    intentHeading: "What kind of screenshot?",
+    intentHeading: "What kind of image?",
     intentOptions: [
-      { id: "error", label: "An error message" },
-      { id: "interface", label: "Something in an app or website" },
-      { id: "message", label: "A confusing message" }
+      {
+        id: "photo",
+        label: "A photo I took",
+        examples: [
+          "What kind of flower is this?",
+          "What does this sign mean?",
+          "Is this fruit ripe?"
+        ]
+      },
+      {
+        id: "screen",
+        label: "Something on my screen",
+        examples: [
+          "Why am I seeing this message?",
+          "What does this button do?",
+          "How can I fix this error?"
+        ]
+      },
+      {
+        id: "notice",
+        label: "A message or notice",
+        examples: [
+          "Can you explain what this says?",
+          "What action do I need to take?",
+          "Is anything important here?"
+        ]
+      }
     ],
     inputLabel: "What would you like AI to explain?",
-    inputPlaceholder:
-      "Why my computer is showing this error.",
+    inputPlaceholder: "Ask about what you see in the image.",
     requiresUpload: true,
     capabilitiesEarned: [
       "asking-clearly",
@@ -290,7 +319,7 @@ export const TASKS: TaskConfig[] = [
     reflectionItems: [
       {
         label: "Asking with context",
-        moment: "You described what kind of screenshot you were sharing"
+        moment: "You described what kind of image you were sharing"
       },
       {
         label: "Covering details",
@@ -301,7 +330,7 @@ export const TASKS: TaskConfig[] = [
         moment: "You checked whether AI noticed the right things"
       }
     ],
-    mockResponseId: "explain-screenshot-default"
+    mockResponseId: "understand-image-default"
   },
   {
     slug: "understand-document",

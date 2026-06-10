@@ -98,21 +98,21 @@ export const MOCK_RESPONSES: Record<string, AIResponse> = {
     nextStep: "Try editing the greeting to match how you usually write"
   },
 
-  "explain-screenshot-default": {
+  "understand-image-default": {
     answer:
-      "This looks like an error saying a program could not find a file it needs. The missing file is part of a toolkit some software uses. This usually means the program did not install fully, or part of it was deleted by accident.",
+      "This looks like a household electricity bill. The top section lists the billing period and the amount due. The middle shows the meter reading and how much energy was used. The bottom explains the rate and any taxes added to the total.",
     aiHelpedBy: [
-      "Reading the error message and naming what it is about",
-      "Translating a technical filename into plain words",
-      "Suggesting why it might be happening"
+      "Identifying what kind of document the image shows",
+      "Naming what each section of the layout is for",
+      "Translating any technical labels into plain words"
     ],
     considerChecking: [
-      "Whether the program was recently installed or updated",
-      "Whether reinstalling fixes it",
-      "Whether the answer matches your version of the software"
+      "Whether the due date and amount match what you remember",
+      "Whether the meter reading looks reasonable for the period",
+      "Whether anything in the image looks different from previous bills"
     ],
     nextStep:
-      "Try copying the file name into a search to see how others resolved it"
+      "Try asking a follow-up about any line you don't recognise"
   },
 
   "understand-document-default": {

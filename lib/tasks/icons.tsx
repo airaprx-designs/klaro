@@ -42,7 +42,7 @@ const TASK_ICONS: Record<string, LucideIcon> = {
   "write-greeting": Heart,
   "plan-event-or-trip": Map,
   "write-first-email": Mail,
-  "explain-screenshot": ImageIcon,
+  "understand-image": ImageIcon,
   "understand-document": FileText,
   "compare-products": Scale,
   "fact-check": ShieldCheck
@@ -72,7 +72,7 @@ const TASK_ACCENTS: Record<string, TaskAccent> = {
   "write-greeting": TERRA,
   "plan-event-or-trip": AMBER,
   "write-first-email": TERRA,
-  "explain-screenshot": AMBER,
+  "understand-image": AMBER,
   "understand-document": TERRA,
   "compare-products": AMBER,
   "fact-check": TERRA

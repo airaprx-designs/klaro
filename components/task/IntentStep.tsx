@@ -41,6 +41,14 @@ export function IntentStep({
   const canContinue =
     Boolean(selectedIntentId) && userInput.trim().length > 0;
 
+  // When an intent is selected and the option carries examples, surface them
+  // below the textarea as a small "For example:" block. Calm hint, not a
+  // clickable chip — users see variety, decide their own wording.
+  const selectedOption = task.intentOptions.find(
+    (opt) => opt.id === selectedIntentId
+  );
+  const examples = selectedOption?.examples ?? [];
+
   return (
     <section>
       <h2>{task.intentHeading}</h2>
@@ -91,6 +99,31 @@ export function IntentStep({
           rows={4}
           className="mt-3 block w-full resize-none rounded-md border-[0.75px] border-outline bg-elevated px-5 py-4 text-lg text-warm-dark shadow-sm placeholder:text-warm-soft focus-visible:border-terracotta"
         />
+
+        {examples.length > 0 ? (
+          <div
+            aria-live="polite"
+            className="mt-4 rounded-md border-[0.75px] border-outline bg-warm-canvas px-5 py-4 shadow-sm"
+          >
+            <p className="text-base font-bold uppercase tracking-widest text-terracotta-deep">
+              For example
+            </p>
+            <ul className="mt-2 flex flex-col gap-1.5">
+              {examples.map((ex) => (
+                <li
+                  key={ex}
+                  className="flex items-start gap-3 text-lg text-warm-mid"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="mt-2.5 inline-block h-1.5 w-1.5 flex-none rounded-full bg-warm-yellow-deep"
+                  />
+                  <span className="leading-snug">{ex}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-8">

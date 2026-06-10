@@ -187,10 +187,24 @@ No way for a user to wipe their state and start fresh.
 
 **38. No visual record of build phases 1-11.**
 The product evolved over 11 phases without any captured visuals. The "tasteful SaaS" baseline that triggered the brand refresh is only described.
-*Fix:* not recoverable for the historical phases. Captured the final form via Playwright after deploy (`case_study/03_final_form/` has 9 screenshots covering Today, the full task journey, Progress, and Settings).
+*Fix:* not recoverable for the historical phases. Captured the final form via Playwright after deploy (`case_study/03_final_form/` has 9 screenshots covering Today, the full task journey, Progress, and Settings, plus a video walkthrough added later).
+
+---
+
+## Post-deploy (added 2026-06-03)
+
+**39. Real-AI deploy failed with 404 on `claude-3-5-sonnet-latest`.**
+Env vars were set correctly and the request reached Anthropic, but the model alias had been retired when Anthropic moved to the 4-series. The error came back as `{"type":"not_found_error","message":"model: claude-3-5-sonnet-latest"}`.
+*Fix:* pinned to the explicit current model `claude-sonnet-4-6` instead of a `-latest` alias. Tradeoff: explicit pinning requires manual version bumps but eliminates "alias 404" failures from future deprecations. The lesson scales beyond Klaro — anytime a hosted-model alias is in production code, plan for the day it gets retired.
+
+**40. Hero card bled past the content column on mobile.**
+The hero used `-mx-6 sm:-mx-10` (negative horizontal margins) as a billboard effect, intentionally pulling the card edges beyond the page padding. On mobile the bleed pulled the hero past the TaskCards, "OR PICK ANOTHER" label, and Explore-all-tasks below it. The visual mismatch read as a layout bug, not a design choice.
+*Fix:* removed both negative-margin classes. The hero now respects the same horizontal padding as everything else in the content column. It loses the "floating banner" feel and reads as one of the cards on the page — which on reflection is what Klaro's calm tone wants anyway.
 
 ---
 
 ## Pattern
 
-A recurring shape across these problems: the failures were almost never where I first looked. The Map icon was framed as a CSS specificity problem when it was an SVG paint-server problem. The hero collapse was framed as a layout problem when it was a Tailwind content-scanning problem. The "tasteful SaaS" feel was framed as polish-not-yet-done when it was a brand-direction problem. Reframing the question was usually the fix that mattered; the code change after that was small.
+A recurring shape across these problems: the failures were almost never where I first looked. The Map icon was framed as a CSS specificity problem when it was an SVG paint-server problem. The hero collapse was framed as a layout problem when it was a Tailwind content-scanning problem. The "tasteful SaaS" feel was framed as polish-not-yet-done when it was a brand-direction problem. The first real-AI 404 looked like an auth or env-var problem until the error message named the model alias. The hero bleed on mobile looked like a CSS responsive bug until the negative margin showed it had been deliberate from the start.
+
+Reframing the question was usually the fix that mattered; the code change after that was small. Worth keeping in mind for the next project: when a problem feels stuck, the answer is rarely to look harder at where you are. It is usually to step back and ask what kind of problem this actually is.

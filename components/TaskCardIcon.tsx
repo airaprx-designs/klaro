@@ -83,7 +83,7 @@ export function TaskCardIcon({ slug, className, strokeWidth = 1.8 }: Props) {
         </svg>
       );
 
-    case "explain-screenshot":
+    case "understand-image":
       // Image
       return (
         <svg {...svgProps}>

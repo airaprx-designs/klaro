@@ -108,7 +108,7 @@ The deployed Klaro at https://klaro-ai-confident.vercel.app, captured via headle
 - **`07_progress.png`** — Progress page, showing real persisted state from the just-completed task. "You've recently tried" lists the three reflection moments from Get ideas; "You are now capable of" shows "Breaking tasks down" earned (terracotta-tint Check badge); "Suggested next step" surfaces Ask a question as the next Level 1 task with a task-preview row.
 - **`08_settings.png`** — Settings page. Functional display-name input; three disabled segmented controls (Text size, Spacing, Explanation depth) with "(coming soon)" hints; the Reset progress section at the bottom with its outlined button.
 
-These eight screenshots are the complete top-level surface of the product. The upload + redact path (used in `explain-screenshot` and `understand-document`) is not captured here; if you want it, run the same script on either of those task slugs and add `03b_upload.png` + `03c_redact.png`.
+These eight screenshots are the complete top-level surface of the product. The upload + redact path (used in `understand-image` and `understand-document`) is not captured here; if you want it, run the same script on either of those task slugs and add `03b_upload.png` + `03c_redact.png`.
 
 ### What landed in the final form that was not in any wireframe or mockup
 
@@ -123,10 +123,33 @@ These eight screenshots are the complete top-level surface of the product. The u
 
 ---
 
-## Recommendation for the case study
+## Phase E — Post-ship iteration (captured 2026-06-03)
 
-The bundle is incomplete on one important side: there is no "before" state to anchor the brand refresh against. The "tasteful SaaS" baseline that triggered the brand exploration is only described, not shown.
+After the initial final-form capture, two more rounds of changes shipped:
 
-If the case study calls for a true before/after, one option is to git-revert temporarily to a commit before the brand refresh, capture screenshots, then return to the current state. With the current git history (which starts at "Initial commit" after all work was done), this is not possible from this repo. The earliest visible state in any captured image is `klaro_today_vs_playful.jpg`, which already includes "current" on the left as a comparison baseline; the "current" panel in that image is the closest record of the pre-refresh look that survives.
+**Round 1 — hero swap.** The original Phase D used a flat SVG illustration (`hero.svg`). A user-supplied 3D-style PNG (`hero_img.png`) replaced it, with palette and softness better matched to the brand's terracotta + peach + cream family. Decision shot: `klaro_hero_swap_mockup.png` in the parent folder shows the side-by-side comparison that drove the call.
 
-For documenting the final form, capturing the live Vercel deploy is the next step. Walking through Today, a task journey end-to-end (Ask a question is a good choice), Progress, and Settings gives a complete visual story when paired with the wireframes and brand exploration in this folder.
+**Round 2 — hero alignment fix.** The hero card used negative horizontal margins (`-mx-6 sm:-mx-10`) to bleed beyond the page padding, intended as a billboard effect. On mobile it pulled the hero past the TaskCards, "OR PICK ANOTHER" label, and Explore-all-tasks below it. The fix removed the negative margins; the hero now respects the same horizontal padding as the rest of the content.
+
+Updated files in `03_final_form/`:
+
+- `01b_today_home_new_hero.png` — desktop, post-alignment-fix, with the new PNG hero
+- `mobile_after.png` — mobile, post-alignment-fix, hero aligned with TaskCards
+- `10_walkthrough.mp4` and `10_walkthrough.webm` — a ~30-40 second video walking through the full live product: Today → Begin → Intent (typed question) → Review before sharing → Thinking → real Claude answer → Reflection → Progress (now populated) → Settings → back to Today. Recorded against the deployed Vercel URL with real Anthropic Claude returning the AI response.
+
+The video is the most case-study-useful artifact in this folder. It captures Klaro's calm pacing in motion — the deliberate "Thinking" beat without a spinner, the four-section AI response laying out, the celebration but quiet reflection screen — in a way that no still screenshot quite does.
+
+## What the case study has and doesn't have
+
+**Has:**
+
+- Phase A — Wireframes (12 files in `01_wireframes/`) showing the original design intent
+- Phase C — Brand exploration (9 mockups in `02_brand_exploration/`) showing how terracotta was chosen
+- Phase D + E — Final-form captures + video in `03_final_form/`
+- `klaro_hero_swap_mockup.png` at the root of `case_study/` for the hero illustration decision
+- Written reflections: `visual_phases.md` (this file), `problems_and_fixes.md`, `klaro_retrospective.md`
+
+**Doesn't have:**
+
+- Phase B (build phases 1-11) — no captured visuals from scaffold through pre-brand-refresh. The "tasteful SaaS wireframe" baseline that triggered the brand exploration is described, not shown. The closest surviving record is the left panel of `02_brand_exploration/klaro_today_vs_playful.jpg`, which uses "current" as the comparison baseline.
+- The upload + redact path of the task journey (used in `understand-image` and `understand-document`). The video captures a non-upload task (Ask a question). To document the upload path, run the same Playwright walkthrough against `/task/understand-image`.
