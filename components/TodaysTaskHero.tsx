@@ -66,7 +66,7 @@ export function TodaysTaskHero({ task }: Props) {
             {task.title}
           </h2>
 
-          <p className="mt-4 max-w-[75%] text-lg text-warm-mid">
+          <p className="mt-4 text-lg text-warm-mid md:max-w-[75%]">
             {task.description ?? task.shortDescription}
           </p>
 
